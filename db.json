@@ -1,0 +1,37 @@
+{
+  "products": [
+    {
+      "name": "Silver Ring",
+      "description": "Loperm Ipsum Loperm Ipsum Loperm Ipsum",
+      "price": "1000",
+      "dPrice": "10",
+      "discountPercentage": "1",
+      "category": "Silver",
+      "images": null,
+      "status": 1,
+      "id": "4d4f"
+    },
+    {
+      "id": "6ba9",
+      "name": "Golden Ring",
+      "description": "Loperm IpsumLoperm IpsumLoperm IpsumLoperm Ipsum",
+      "price": "2000",
+      "dPrice": "100",
+      "discountPercentage": "10",
+      "category": "Silver",
+      "images": null,
+      "status": 1
+    },
+    {
+      "id": "79bd",
+      "name": "Riley Griffin",
+      "description": "Dolorem excepteur as",
+      "price": "321",
+      "dPrice": "103",
+      "discountPercentage": "10",
+      "category": "Silver",
+      "images": null,
+      "status": 1
+    }
+  ]
+}
