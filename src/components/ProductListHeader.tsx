@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import AddProductModal from "./ProductModal";
 import { useLocation, useNavigate } from "react-router-dom";
+import { PlusCircle } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import ProductModal from "./ProductModal";
 
 const ProductListHeader = ({ pagination }) => {

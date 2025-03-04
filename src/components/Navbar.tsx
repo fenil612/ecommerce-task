@@ -1,6 +1,6 @@
+import { useLocation } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();

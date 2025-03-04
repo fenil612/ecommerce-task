@@ -1,14 +1,14 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Tag, Button } from "antd";
 import { Edit, Trash2 } from "lucide-react";
+import { Table, Tag, Button } from "antd";
 import { deleteProduct } from "../api/productAPi";
 import {
   getProducts,
   setPages,
   setSelectedProduct,
 } from "@/redux/productSlice";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ProductModal from "./ProductModal";
 
 const ProductTable = ({ data, pagination, setPagination }) => {
@@ -40,18 +40,11 @@ const ProductTable = ({ data, pagination, setPagination }) => {
       pageSize: pagination?.pageSize,
       total: products.items,
     });
-
-    // dispatch(
-    //   getProducts({
-    //     pageNo: products?.last,
-    //     pageSize: pagination?.pageSize,
-    //   })
-    // );
   }, [products?.total]);
 
   const updateCurrentPageOnDelete = ({ current, pageSize, total }) => {
-    const totalPages = Math.ceil((total - 1) / pageSize); // New total pages after deletion
-    return Math.min(current, totalPages) || 1; // Ensure page doesn't go below 1
+    const totalPages = Math.ceil((total - 1) / pageSize);
+    return Math.min(current, totalPages) || 1;
   };
 
   const handleTableChange = (newPagination) => {
@@ -72,9 +65,6 @@ const ProductTable = ({ data, pagination, setPagination }) => {
   const handleDelete = async (id) => {
     try {
       await deleteProduct(id);
-
-      // Reload products after deletion
-
       const newCurrentPage = updateCurrentPageOnDelete(pagination);
 
       dispatch(
@@ -145,6 +135,7 @@ const ProductTable = ({ data, pagination, setPagination }) => {
           type="link"
           className="text-primary"
           onClick={() => handleView(record)}
+          disabled={record.status !== 1} // Disable if inactive
         >
           View
         </Button>
@@ -153,29 +144,40 @@ const ProductTable = ({ data, pagination, setPagination }) => {
     {
       title: "Actions",
       key: "actions",
-      render: (record) => (
-        <div className="flex space-x-2">
-          <Button type="link" className="text-amber-500">
-            <Edit
-              className="h-4 w-4"
+      render: (record) => {
+        const isDisabled = record.status !== 1; // Disable actions if inactive
+
+        return (
+          <div className="flex space-x-2">
+            <Button
+              type="link"
+              className="text-amber-500"
+              disabled={isDisabled}
               onClick={() => {
-                setIsProductModalOpen({
-                  isOpen: true,
-                  type: "Edit",
-                  product: record,
-                });
+                if (!isDisabled) {
+                  setIsProductModalOpen({
+                    isOpen: true,
+                    type: "Edit",
+                    product: record,
+                  });
+                }
               }}
-            />
-          </Button>
-          <Button
-            type="link"
-            className="text-red-500"
-            onClick={() => handleDelete(record.id)}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </div>
-      ),
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button
+              type="link"
+              className="text-red-500"
+              disabled={isDisabled}
+              onClick={() => {
+                if (!isDisabled) handleDelete(record.id);
+              }}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        );
+      },
     },
   ];
 
@@ -188,7 +190,7 @@ const ProductTable = ({ data, pagination, setPagination }) => {
         pagination={{
           current: pagination.current,
           pageSize: pagination.pageSize,
-          // pageSize: 2,
+
           total: pagination.total,
           showSizeChanger: true,
           pageSizeOptions: ["5", "10", "20", "50"],

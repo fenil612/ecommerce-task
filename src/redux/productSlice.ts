@@ -1,7 +1,5 @@
 import axiosInstance from "@/api/axiosInstance";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { saveProductToIndexedDB, getProductsFromIndexedDB, deleteProductFromIndexedDB } from "@/utils/indexedDB"; // Adjust the path accordingly
-
 
 // Fetch products
 export const getProducts = createAsyncThunk(

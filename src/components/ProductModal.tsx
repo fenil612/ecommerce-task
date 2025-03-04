@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { X } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,10 +12,7 @@ import {
   DialogTitle,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { createProduct, updateProduct } from "@/api/productAPi";
-import { useDispatch, useSelector } from "react-redux";
 import { getProducts, setPages } from "@/redux/productSlice";
 
 const ProductModal = ({ open, onOpenChange, type, product }) => {
@@ -60,12 +60,11 @@ const ProductModal = ({ open, onOpenChange, type, product }) => {
     try {
       const productData = { ...values };
       const newProduct = await createProduct(productData);
-    
+
       // newProduct;
       onOpenChange(false);
 
       const newCurrentPage = updateCurrentPageOnAdd(selectedPagination);
-     
 
       dispatch(
         getProducts({
@@ -88,9 +87,9 @@ const ProductModal = ({ open, onOpenChange, type, product }) => {
   const handleEditProduct = async (values: typeof initialValues) => {
     try {
       const productData = { ...values };
-     
-      const updatedProduct = await updateProduct(product?.id, productData);
-    
+
+      await updateProduct(product?.id, productData);
+
       // newProduct;
       onOpenChange(false);
       dispatch(
